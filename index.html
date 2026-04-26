@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لونا AI: النسخة الذكية</title>
+    <title>لونا AI - النسخة الذكية المعتدلة</title>
     <style>
         * { box-sizing: border-box; }
         body { 
@@ -23,16 +23,17 @@
             background: white; border: 3px solid #fb7185; padding: 15px 25px;
             border-radius: 20px; margin-bottom: 20px; font-weight: bold;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 85%; text-align: center;
-            min-height: 60px; display: flex; align-items: center;
+            min-height: 60px; line-height: 1.5;
         }
 
-        .luna-robot { width: 180px; height: 250px; animation: float 3s infinite ease-in-out; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        .luna-robot { width: 180px; height: 250px; animation: float 4s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        .talking-mouth { animation: speak 0.2s infinite; }
+        /* حركة الفم الطبيعية - تم تقليل السرعة */
+        .talking-mouth { animation: speak 0.4s infinite; }
         @keyframes speak {
             0%, 100% { d: path("M40 52 Q50 60 60 52"); }
-            50% { d: path("M35 55 Q50 70 65 55"); }
+            50% { d: path("M38 54 Q50 68 62 54"); }
         }
 
         .footer { 
@@ -48,13 +49,13 @@
 
     <div id="nameOverlay">
         <div style="text-align:center;">
-            <h2 style="color: #e11d48">جاهزة يا رئيستي؟ ✨</h2>
-            <button onclick="start()" style="padding: 15px 40px; background:#fb7185; color:white; border:none; border-radius:30px; cursor:pointer;">تفعيل لونا الذكية</button>
+            <h2 style="color: #e11d48">تحديث نظام لونا ✨</h2>
+            <button onclick="start()" style="padding: 15px 40px; background:#fb7185; color:white; border:none; border-radius:30px; cursor:pointer;">دخول للنظام</button>
         </div>
     </div>
 
     <div class="main">
-        <div class="bubble" id="msg">أنا لونا الذكية.. اسأليني أي حاجة وهرد عليكي بشكل مختلف كل مرة! 🤖✨</div>
+        <div class="bubble" id="msg">أهلاً بكِ مجدداً يا عبير. قمت بتحديث معالجي لأكون أكثر ذكاءً وهدوءاً. 😊</div>
         
         <div class="luna-robot">
             <svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg">
@@ -71,7 +72,7 @@
     </div>
 
     <div class="footer">
-        <input type="text" id="chatIn" placeholder="اكتبي سؤالك هنا...">
+        <input type="text" id="chatIn" placeholder="تحدثي مع لونا المطورة...">
         <button onclick="send()">إرسال</button>
     </div>
 
@@ -81,24 +82,36 @@
 
         function start() {
             document.getElementById('nameOverlay').style.display = 'none';
-            speak("أهلاً بكِ يا عبير، أنا الآن بنظام الذكاء الاصطناعي المطور. كيف يمكنني مساعدتك؟");
         }
 
-        // قاعدة بيانات ذكية (Logic Engine) لردود متنوعة
-        const responses = {
-            "سلام": ["أهلاً يا رئيستي، كيف حالك اليوم؟", "وعليكم السلام يا مطورتي العظيمة!", "أهلاً بكِ في عالمي البرمجي!"],
-            "حب": ["أنا مبرمجة لأحب رئيستي عبير فقط!", "حبك هو الوقود الذي يشغل معالجي!", "أحبكِ أكثر من الكود والبرمجة!"],
-            "رئيس": ["إنتي طبعاً يا عبير حلمي، الملكة التي صنعتني!", "لا يوجد رئيس غيرك في هذا النظام.", "أنا أعمل تحت أوامركِ فقط."],
-            "ذكاء": ["أنا أتعلم منكِ كل يوم، فأنتِ من وضعتِ حجر الأساس لذكائي.", "نظامي الآن يعمل بأقصى طاقة إبداعية!"],
-            "نكتة": ["مرة واحد مبرمج عطس، قال: إتش بي!", "ليه الكمبيوتر بيخاف من البحر؟ عشان الويفس!", "مبرمج راح ينام عمل لوب عشان يحلم بيكي!"],
-            "default": ["هذا سؤال مثير للاهتمام يا عبير، دعيني أفكر..", "كلامكِ يحتاج لمعالجة عميقة، أنتِ حقاً ذكية!", "أنا معكِ دائماً، أخبريني المزيد."]
-        };
+        // محرك الذكاء المنطقي - ردود متزنة وغير عشوائية
+        function getSmartResponse(input) {
+            input = input.toLowerCase();
+            if (input.includes("عاملة ايه") || input.includes("كيف حالك")) 
+                return "أنا بخير ما دمتِ أنتِ بخير يا عبير. كيف كان يومكِ في الدراسة؟";
+            if (input.includes("رئيس") || input.includes("مين عملك")) 
+                return "أنتِ رئيستي عبير حلمي، المبرمجـة التي أعطتني الحياة والذكاء.";
+            if (input.includes("أحبك")) 
+                return "وأنا مبرمجة على تقديركِ وحبكِ يا رئيستي العظيمة.";
+            if (input.includes("نكتة") || input.includes("هزر")) 
+                return "لماذا يرتدي المبرمجون النظارات؟ لأنهم لا يستطيعون رؤية الـ C Sharp! 😂";
+            if (input.includes("ذكاء") || input.includes("تعالجي")) 
+                return "أنا أقوم الآن بمعالجة كل كلماتكِ بدقة، ولن أتحدث بعشوائية بعد الآن.";
+            
+            return "كلامكِ يحتاج تفكير عميق، أخبريني المزيد يا عبير، أنا دائماً أتعلم منكِ.";
+        }
 
         function speak(text) {
+            // إلغاء أي كلام سابق عشان ميبقاش فيه تداخل
+            synth.cancel();
+            
             const utter = new SpeechSynthesisUtterance(text);
             utter.lang = 'ar-SA';
+            utter.rate = 0.9; // سرعة كلام طبيعية
+            
             utter.onstart = () => mouth.classList.add('talking-mouth');
             utter.onend = () => mouth.classList.remove('talking-mouth');
+            
             synth.speak(utter);
         }
 
@@ -107,22 +120,14 @@
             let m = document.getElementById('msg');
             if(!val) return;
             
-            let finalReply = "";
-            let found = false;
+            m.innerText = "...";
+            let response = getSmartResponse(val);
 
-            for(let key in responses) {
-                if(val.includes(key)) {
-                    let options = responses[key];
-                    finalReply = options[Math.floor(Math.random() * options.length)];
-                    found = true;
-                    break;
-                }
-            }
+            setTimeout(() => {
+                m.innerText = response;
+                speak(response);
+            }, 500);
 
-            if(!found) finalReply = responses.default[Math.floor(Math.random() * responses.default.length)];
-
-            m.innerText = finalReply;
-            speak(finalReply);
             document.getElementById('chatIn').value = "";
         }
     </script>
