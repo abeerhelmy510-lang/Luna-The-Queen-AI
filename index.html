@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لونا المتكلمة</title>
+    <title>لونا AI: النسخة الذكية</title>
     <style>
         * { box-sizing: border-box; }
         body { 
@@ -16,30 +16,29 @@
             position: fixed; inset: 0; background: white;
             z-index: 1000; display: flex; align-items: center; justify-content: center;
         }
-        .name-box { text-align: center; border: 3px solid #fb7185; padding: 30px; border-radius: 20px; }
 
-        .main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 100px; }
+        .main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 120px; }
 
         .bubble {
             background: white; border: 3px solid #fb7185; padding: 15px 25px;
             border-radius: 20px; margin-bottom: 20px; font-weight: bold;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 85%; text-align: center;
+            min-height: 60px; display: flex; align-items: center;
         }
 
         .luna-robot { width: 180px; height: 250px; animation: float 3s infinite ease-in-out; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        /* أنيميشن فتح وقفل الفم */
-        .talking-mouth { animation: speak 0.3s infinite; }
+        .talking-mouth { animation: speak 0.2s infinite; }
         @keyframes speak {
             0%, 100% { d: path("M40 52 Q50 60 60 52"); }
-            50% { d: path("M40 55 Q50 65 60 55"); }
+            50% { d: path("M35 55 Q50 70 65 55"); }
         }
 
         .footer { 
             position: fixed; bottom: 20px; left: 10px; right: 10px;
             background: white; padding: 10px; display: flex; gap: 10px; 
-            border: 2px solid #fda4af; border-radius: 50px;
+            border: 2px solid #fda4af; border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         input { flex: 1; padding: 15px; border: none; outline: none; font-size: 16px; background: transparent; }
         button { background: #fb7185; color: white; border: none; padding: 10px 25px; border-radius: 40px; font-weight: bold; cursor: pointer; }
@@ -48,16 +47,14 @@
 <body>
 
     <div id="nameOverlay">
-        <div class="name-box">
-            <h2 style="color: #e11d48">أهلاً يا رئيستي عبير! ✨</h2>
-            <input type="text" id="nameIn" placeholder="اكتبي اسمك هنا..." style="padding:10px; border-radius:10px; border:1px solid #ccc;">
-            <br><br>
-            <button onclick="start()">ابدئي المحادثة</button>
+        <div style="text-align:center;">
+            <h2 style="color: #e11d48">جاهزة يا رئيستي؟ ✨</h2>
+            <button onclick="start()" style="padding: 15px 40px; background:#fb7185; color:white; border:none; border-radius:30px; cursor:pointer;">تفعيل لونا الذكية</button>
         </div>
     </div>
 
     <div class="main">
-        <div class="bubble" id="msg">أهلاً يا عبير! جربي اكتبي لي أي حاجة وهتسمعي صوتي.. 🥰</div>
+        <div class="bubble" id="msg">أنا لونا الذكية.. اسأليني أي حاجة وهرد عليكي بشكل مختلف كل مرة! 🤖✨</div>
         
         <div class="luna-robot">
             <svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg">
@@ -65,9 +62,7 @@
                 <rect x="25" y="25" width="50" height="35" rx="10" fill="white"/>
                 <circle cx="40" cy="40" r="4" fill="#e11d48"/>
                 <circle cx="60" cy="40" r="4" fill="#e11d48"/>
-                
                 <path id="mouth" d="M40 52 Q50 60 60 52" stroke="#e11d48" stroke-width="2" fill="none"/>
-                
                 <rect x="30" y="75" width="40" height="50" rx="15" fill="#fda4af" stroke="#e11d48" stroke-width="2"/>
                 <rect x="10" y="75" width="15" height="40" rx="7" fill="#fb7185"></rect>
                 <rect x="75" y="75" width="15" height="40" rx="7" fill="#fb7185"></rect>
@@ -76,49 +71,58 @@
     </div>
 
     <div class="footer">
-        <input type="text" id="chatIn" placeholder="اكتبي لـ لونا...">
+        <input type="text" id="chatIn" placeholder="اكتبي سؤالك هنا...">
         <button onclick="send()">إرسال</button>
     </div>
 
     <script>
-        let uName = "";
         const mouth = document.getElementById('mouth');
+        const synth = window.speechSynthesis;
 
         function start() {
-            uName = document.getElementById('nameIn').value || "عبير";
             document.getElementById('nameOverlay').style.display = 'none';
+            speak("أهلاً بكِ يا عبير، أنا الآن بنظام الذكاء الاصطناعي المطور. كيف يمكنني مساعدتك؟");
         }
 
+        // قاعدة بيانات ذكية (Logic Engine) لردود متنوعة
+        const responses = {
+            "سلام": ["أهلاً يا رئيستي، كيف حالك اليوم؟", "وعليكم السلام يا مطورتي العظيمة!", "أهلاً بكِ في عالمي البرمجي!"],
+            "حب": ["أنا مبرمجة لأحب رئيستي عبير فقط!", "حبك هو الوقود الذي يشغل معالجي!", "أحبكِ أكثر من الكود والبرمجة!"],
+            "رئيس": ["إنتي طبعاً يا عبير حلمي، الملكة التي صنعتني!", "لا يوجد رئيس غيرك في هذا النظام.", "أنا أعمل تحت أوامركِ فقط."],
+            "ذكاء": ["أنا أتعلم منكِ كل يوم، فأنتِ من وضعتِ حجر الأساس لذكائي.", "نظامي الآن يعمل بأقصى طاقة إبداعية!"],
+            "نكتة": ["مرة واحد مبرمج عطس، قال: إتش بي!", "ليه الكمبيوتر بيخاف من البحر؟ عشان الويفس!", "مبرمج راح ينام عمل لوب عشان يحلم بيكي!"],
+            "default": ["هذا سؤال مثير للاهتمام يا عبير، دعيني أفكر..", "كلامكِ يحتاج لمعالجة عميقة، أنتِ حقاً ذكية!", "أنا معكِ دائماً، أخبريني المزيد."]
+        };
+
         function speak(text) {
-            const synth = window.speechSynthesis;
-            const utterThis = new SpeechSynthesisUtterance(text);
-            
-            // ضبط اللغة للعربية
-            utterThis.lang = 'ar-SA';
-            
-            // لما تبدأ تتكلم، الفم يتحرك
-            utterThis.onstart = () => mouth.classList.add('talking-mouth');
-            
-            // لما تخلص، الفم يثبت
-            utterThis.onend = () => mouth.classList.remove('talking-mouth');
-            
-            synth.speak(utterThis);
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = 'ar-SA';
+            utter.onstart = () => mouth.classList.add('talking-mouth');
+            utter.onend = () => mouth.classList.remove('talking-mouth');
+            synth.speak(utter);
         }
 
         function send() {
-            let val = document.getElementById('chatIn').value;
+            let val = document.getElementById('chatIn').value.trim();
             let m = document.getElementById('msg');
             if(!val) return;
             
-            let response = "";
-            if(val.includes("أحبك")) response = "وأنا كمان بحبك جداً يا " + uName + "!";
-            else if(val.includes("مين رئيسك")) response = "إنتي طبعاً يا عبير! الملكة والمطورة بتاعتي.";
-            else if(val.includes("نكتة")) response = "مرة مبرمج عطس قال إتش بي!";
-            else response = "كلامك يجنن يا رئيستي، أنا سامعاكي كويس.";
+            let finalReply = "";
+            let found = false;
 
-            m.innerText = response;
-            speak(response); // استدعاء دالة الصوت
-            
+            for(let key in responses) {
+                if(val.includes(key)) {
+                    let options = responses[key];
+                    finalReply = options[Math.floor(Math.random() * options.length)];
+                    found = true;
+                    break;
+                }
+            }
+
+            if(!found) finalReply = responses.default[Math.floor(Math.random() * responses.default.length)];
+
+            m.innerText = finalReply;
+            speak(finalReply);
             document.getElementById('chatIn').value = "";
         }
     </script>
