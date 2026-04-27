@@ -3,143 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إمبراطورية لونا الملكية 👑</title>
+    <title>LUNA VOICE & MOTION SYSTEM</title>
     <style>
         * { box-sizing: border-box; transition: 0.3s; }
-        body { margin: 0; background: #fdf2f8; font-family: 'Segoe UI', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-        .header { background: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #fda4af; }
+        body { margin: 0; background: #fff1f2; font-family: 'Segoe UI', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        
+        .header { background: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #fb7185; }
         .store-btn { background: linear-gradient(45deg, #fb7185, #e11d48); color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; }
-        
-        #store { position: fixed; inset: 0; background: white; z-index: 2000; display: none; flex-direction: column; padding: 20px; overflow-y: auto; }
-        .tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px; }
-        .tab-btn { min-width: 100px; padding: 12px; border-radius: 12px; border: 2px solid #fda4af; background: white; color: #e11d48; font-weight: bold; cursor: pointer; }
-        .tab-btn.active { background: #fb7185; color: white; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card { background: #fff; border: 2px solid #fce7f3; border-radius: 20px; padding: 10px; text-align: center; position: relative; }
-        .card img { width: 100%; height: 140px; object-fit: contain; border-radius: 15px; background: #fdf2f2; }
-        .price-tag { display: block; color: #e11d48; font-weight: bold; font-size: 13px; margin-top: 8px; }
 
+        #store { position: fixed; inset: 0; background: white; z-index: 2000; display: none; flex-direction: column; padding: 20px; overflow-y: auto; }
+        .tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px; border-bottom: 2px solid #eee; }
+        .tab-btn { min-width: 100px; padding: 10px; border-radius: 12px; border: 2px solid #fda4af; background: white; color: #e11d48; font-weight: bold; cursor: pointer; }
+        .tab-btn.active { background: #fb7185; color: white; }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .card { background: #fff; border: 2px solid #fce7f3; border-radius: 20px; padding: 10px; text-align: center; }
+        .card img { width: 100%; height: 120px; object-fit: cover; border-radius: 15px; }
+
+        /* الشاشة الرئيسية */
         .main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-        #lunaDisplay { width: 100%; max-width: 280px; height: 380px; object-fit: contain; }
-        .bubble { background: white; border: 3px solid #fb7185; padding: 15px; border-radius: 20px; margin-bottom: 20px; width: 90%; text-align: center; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        
+        /* انيميشن تحريك الفم/الجسم عند الكلام */
+        @keyframes speaking {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03) translateY(-5px); }
+            100% { transform: scale(1); }
+        }
+        .is-speaking { animation: speaking 0.2s infinite ease-in-out !important; }
+
+        #lunaDisplay { width: 100%; max-width: 280px; height: 350px; object-fit: contain; }
+        .bubble { background: white; border: 3px solid #fb7185; padding: 15px; border-radius: 20px; margin-bottom: 20px; width: 90%; text-align: center; font-weight: bold; }
         
         .footer { background: white; padding: 15px; display: flex; gap: 10px; border-top: 1px solid #eee; }
         input { flex: 1; padding: 12px 20px; border-radius: 30px; border: 2px solid #fda4af; outline: none; }
-        #sendBtn { background: #fb7185; color: white; border: none; border-radius: 30px; padding: 0 25px; font-weight: bold; }
+        #sendBtn { background: #fb7185; color: white; border: none; border-radius: 30px; padding: 0 25px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <button class="store-btn" onclick="toggleStore()">🛍️ المتجر الملكي</button>
-        <div style="font-weight: bold; color: #e11d48;">الملكة عبير 👑</div>
+        <button class="store-btn" onclick="toggleStore()">🛍️ المتجر والأصوات</button>
+        <div style="font-weight: bold; color: #fb7185;">LUNA PRO VOICE 🎙️</div>
     </div>
 
     <div id="store">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom:15px;">
-            <h2 style="color: #e11d48; margin:0;">إمبراطورية الشخصيات 🎭</h2>
+            <h2 style="color: #e11d48; margin:0;">قائمة الميزات المدفوعة 💎</h2>
             <button onclick="toggleStore()" style="background:none; border:none; font-size:30px; color:#fb7185;">✕</button>
         </div>
 
         <div class="tabs">
-            <button class="tab-btn active" onclick="openTab(event, 'girls')">👩 البنات</button>
-            <button class="tab-btn" onclick="openTab(event, 'boys')">👦 الأولاد</button>
-            <button class="tab-btn" onclick="openTab(event, 'clothes')">👗 الملابس</button>
+            <button class="tab-btn active" onclick="openTab(event, 'chars')">🎭 الشخصيات</button>
+            <button class="tab-btn" onclick="openTab(event, 'voices')">🎙️ الأصوات</button>
         </div>
 
-        <div id="girls" class="tab-content active">
+        <div id="chars" class="tab-content active">
             <div class="grid">
-                <div class="card" onclick="changeChar('https://files.oaiusercontent.com/file-a78a2e86-4516-4659-95bc-0a7b748842fd', 'لونا البينك')">
-                    <img src="https://files.oaiusercontent.com/file-a78a2e86-4516-4659-95bc-0a7b748842fd">
-                    <b>لونا البينك</b>
-                    <span class="price-tag">اشتراك 40ج 🔒</span>
+                <div class="card" onclick="changeChar('https://cdn.pixabay.com/photo/2023/12/07/11/04/girl-8435329_1280.png', 'لونا')">
+                    <img src="https://cdn.pixabay.com/photo/2023/12/07/11/04/girl-8435329_1280.png"><b>لونا</b>
                 </div>
-                <div class="card" onclick="changeChar('https://files.oaiusercontent.com/file-af325cae-976d-4772-b539-018cf2a17e90', 'لونا الجوثيك')">
-                    <img src="https://files.oaiusercontent.com/file-af325cae-976d-4772-b539-018cf2a17e90">
-                    <b>لونا الجوثيك</b>
-                    <span class="price-tag">اشتراك 30ج 🔒</span>
+                <div class="card" onclick="changeChar('https://cdn.pixabay.com/photo/2023/11/27/08/17/ai-generated-8414844_1280.jpg', 'زين')">
+                    <img src="https://cdn.pixabay.com/photo/2023/11/27/08/17/ai-generated-8414844_1280.jpg"><b>زين</b>
                 </div>
             </div>
         </div>
 
-        <div id="boys" class="tab-content">
+        <div id="voices" class="tab-content">
             <div class="grid">
-                <div class="card" onclick="changeChar('https://files.oaiusercontent.com/file-4b4f6da5-6a63-440f-9d39-664a1c7eff2f', 'القائد ليو')">
-                    <img src="https://files.oaiusercontent.com/file-4b4f6da5-6a63-440f-9d39-664a1c7eff2f">
-                    <b>القائد ليو</b>
-                    <span class="price-tag">اشتراك 35ج 🔒</span>
-                </div>
-                <div class="card" onclick="changeChar('https://files.oaiusercontent.com/file-9f88ffd8-6bda-4413-b2a0-8d65b6243835', 'المحارب كاي')">
-                    <img src="https://files.oaiusercontent.com/file-9f88ffd8-6bda-4413-b2a0-8d65b6243835">
-                    <b>المحارب كاي</b>
-                    <span class="price-tag">اشتراك 30ج 🔒</span>
-                </div>
-                <div class="card" onclick="changeChar('https://files.oaiusercontent.com/file-c65c911d-9e92-4747-aed0-7439de006b72', 'سايبر زين')">
-                    <img src="https://files.oaiusercontent.com/file-c65c911d-9e92-4747-aed0-7439de006b72">
-                    <b>سايبر زين</b>
-                    <span class="price-tag">اشتراك 45ج 🔒</span>
-                </div>
-            </div>
-        </div>
-
-        <div id="clothes" class="tab-content">
-            <div class="grid">
-                <div class="card" onclick="alert('🔒 اشتراك 20ج لفتح الملابس')">
-                    <img src="https://files.oaiusercontent.com/file-dd1aa620-e002-4d5b-bc4c-2b25e3606899">
-                    <b>طقم السهرة الملكي</b>
-                    <span class="price-tag">20ج 🔒</span>
-                </div>
+                <div class="card" onclick="setVoice('female', 'ناعم')">🎙️ صوت بنت ناعم <br> <small>(اشتراك 15ج)</small></div>
+                <div class="card" onclick="setVoice('male', 'فخم')">🎙️ صوت ولد فخم <br> <small>(اشتراك 15ج)</small></div>
+                <div class="card" onclick="setVoice('robot', 'آلي')">🤖 صوت روبوت <br> <small>(اشتراك 10ج)</small></div>
             </div>
         </div>
     </div>
 
     <div class="main">
-        <div class="bubble" id="msg">أهلاً يا رئيستي! لقد أضفتُ شخصيات الأولاد الآن. من سنختار اليوم؟</div>
-        <img id="lunaDisplay" src="https://files.oaiusercontent.com/file-a78a2e86-4516-4659-95bc-0a7b748842fd">
+        <div class="bubble" id="msg">مرحباً! تحدث معي وسأحرك فمي وأتكلم بصوتي الجديد! 🎙️</div>
+        <img id="lunaDisplay" src="https://cdn.pixabay.com/photo/2023/12/07/11/04/girl-8435329_1280.png">
     </div>
 
     <div class="footer">
-        <input type="text" id="chatIn" placeholder="اكتبي لـ لونا أو أدخلي كود التفعيل...">
+        <input type="text" id="chatIn" placeholder="اكتبي لـ لونا...">
         <button id="sendBtn" onclick="send()">إرسال</button>
     </div>
 
     <script>
         let isAdmin = false;
+        let selectedGender = 'female'; 
         const apiKey = "AIzaSyA2glGeNRIzxJPM3rN8DRRrYDC8NZD53fg";
+
+        function speak(text) {
+            const speech = new SpeechSynthesisUtterance();
+            speech.text = text;
+            speech.lang = 'ar-SA';
+            
+            // ضبط حدة الصوت بناءً على الاختيار
+            if(selectedGender === 'male') { speech.pitch = 0.5; speech.rate = 0.9; } 
+            else if(selectedGender === 'robot') { speech.pitch = 2; speech.rate = 1.5; }
+            else { speech.pitch = 1.2; speech.rate = 1; }
+
+            // تفعيل حركة "الكلام"
+            const img = document.getElementById('lunaDisplay');
+            speech.onstart = () => img.classList.add('is-speaking');
+            speech.onend = () => img.classList.remove('is-speaking');
+
+            window.speechSynthesis.speak(speech);
+        }
 
         function toggleStore() { document.getElementById('store').style.display = (document.getElementById('store').style.display === 'flex') ? 'none' : 'flex'; }
         
         function openTab(evt, tabName) {
             let contents = document.getElementsByClassName("tab-content");
             for (let i = 0; i < contents.length; i++) contents[i].classList.remove("active");
-            let btns = document.getElementsByClassName("tab-btn");
-            for (let i = 0; i < btns.length; i++) btns[i].classList.remove("active");
             document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
+        }
+
+        function setVoice(gender, name) {
+            if(isAdmin) {
+                selectedGender = gender;
+                alert("تم تفعيل صوت: " + name);
+                toggleStore();
+            } else {
+                alert("🔒 هذا الصوت يحتاج اشتراك بفلوس! استخدمي كود الملكة.");
+            }
         }
 
         function changeChar(imgUrl, name) {
             if (isAdmin) {
                 document.getElementById('lunaDisplay').src = imgUrl;
-                document.getElementById('msg').innerText = "الشخصية الحالية: " + name;
                 toggleStore();
-            } else {
-                alert("🔒 اشتراك مطلوب!\nهذه الشخصية مميزة، يرجى تفعيل الاشتراك أولاً.");
-            }
+            } else { alert("🔒 اشتراك مطلوب للشخصيات."); }
         }
 
         async function send() {
             let val = document.getElementById('chatIn').value;
             if(val === "Abeer@2026#LunaPro") {
                 isAdmin = true;
-                document.getElementById('msg').innerText = "تم تفعيل وضع الملكة! كل الشخصيات مفتوحة لكِ الآن. 👑";
+                let m = "تم تفعيل وضع الملكة! كل الأصوات والشخصيات متاحة الآن.";
+                document.getElementById('msg').innerText = m;
+                speak(m);
                 document.getElementById('chatIn').value = "";
                 return;
             }
-            // هنا يكمل كود Gemini للرد
+            
+            document.getElementById('msg').innerText = "جاري التحليل... 🔮";
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: val }] }] })
+                });
+                const data = await response.json();
+                let reply = data.candidates[0].content.parts[0].text;
+                document.getElementById('msg').innerText = reply;
+                speak(reply);
+            } catch (e) { document.getElementById('msg').innerText = "خطأ بالاتصال."; }
+            document.getElementById('chatIn').value = "";
         }
     </script>
 </body>
